@@ -1,46 +1,144 @@
 <!doctype html>
-<html>
-        <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Electricity Cost Analyzer - Home</title>
-        </head>
-        <body>
-            <header>
-                <h1>Electricity Cost Analyzer</h1>
-                <p>Estimate electricity cost by appliance usage and time of use.</p>
-                
-                <nav aria-label="Main Navigation">
-                        <ul>
-                                <li><a href="index.html" aria-current="page">Home</a></li>
-                                <li><a href="rate.html">Step 1: Rate</a></li>
-                                <li><a href="appliances.html">Appliances</a></li>
-                                <li><a href="dashboard.html">Dashboard</a></li>
-                                <li><a href="scenarios.html">Scenarios</a></li>
-                        </ul>
-                </nav>
-                <hr />
-            </header>
-        <main>
-            <section>
-                <h2>Welcome to the Electricity Cost Analyzer!</h2>
-                <p>This tool helps homeowners estimate electricity cost by appliance. You enter your electricity rate, add appliances with watts and daily hours, and the site estimates kWh usage and monthly cost. The goal is to make it obvious what’s driving your bill so you can make better choices</p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electricity Cost Analyzer - Home</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand-block">
+        <p class="eyebrow">Smart Home Energy Tracking</p>
+        <h1>Electricity Cost Analyzer</h1>
+        <p class="tagline">
+          Track the appliances that actually drive your electric bill.
+        </p>
+      </div>
 
-            <section>
-                <h2>Get Started</h2>
-                <p>To start, go to Step 1: Rate and enter your $/kWh. Then you’ll add appliances, view your dashboard totals, and later compare scenarios and tips.</p>
-                <p><a href="rate.html">Start Step 1: Enter your electricity rate</a></p>
-                    <ol>
-                    <li>Enter electricity rate</li>
-                    <li>Add appliances (preset library + manual input)</li>
-                    <li>View Dashboard </li>
-                    <li>Compare scenarios + tips</li>
-                </ol>
-            </section>
-        </main>
-        <footer>
-            <hr />
-            <p>&copy; 2024 Electricity Cost Analyzer. All rights reserved.</p>
-        </footer>
-    </body>
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="rate.html">Rate</a></li>
+          <li><a href="appliances.html">Appliances</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="scenarios.html">Scenarios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <p class="section-label">Know what is costing you money</p>
+          <h2>Focus on the appliances responsible for most of your electric bill.</h2>
+          <p>
+            This tool helps homeowners estimate energy use by appliance, compare
+            high-impact devices, and understand where electricity costs are coming from.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="rate.html">Start with Your Rate</a>
+            <a class="btn btn-secondary" href="appliances.html">View Appliance Setup</a>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Key Benefits">
+          <h3>What this app will do</h3>
+          <ul>
+            <li>Estimate monthly cost by appliance</li>
+            <li>Highlight high-impact loads over small ones</li>
+            <li>Support model lookup with manual fallback</li>
+            <li>Show a dashboard of total usage and cost</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="overview">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">Project Overview</p>
+          <h2>What this website is trying to achieve</h2>
+        </div>
+
+        <div class="card">
+          <p>
+            The Electricity Cost Analyzer is designed to help homeowners track
+            electricity usage as accurately as possible by focusing on the appliances
+            most likely to drive the majority of the bill. Users will enter their
+            electric rate, search for appliances by brand and model, review auto-filled
+            technical details when available, and add real-life usage habits to estimate
+            monthly energy cost.
+          </p>
+          <p>
+            The long-term goal is to combine convenience, better accuracy, and a
+            professional user experience in one clean tool.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="steps">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">How It Works</p>
+          <h2>Simple workflow, useful results</h2>
+        </div>
+
+        <div class="step-grid">
+          <article class="step-card">
+            <span class="step-number">01</span>
+            <h3>Enter Your Rate</h3>
+            <p>Start by entering your electricity cost per kWh so every estimate uses your real rate.</p>
+          </article>
+
+          <article class="step-card">
+            <span class="step-number">02</span>
+            <h3>Add Appliances</h3>
+            <p>Search by brand and model or manually enter appliance details when needed.</p>
+          </article>
+
+          <article class="step-card">
+            <span class="step-number">03</span>
+            <h3>Track High-Impact Loads</h3>
+            <p>Focus on the appliances most likely to contribute meaningfully to the monthly bill.</p>
+          </article>
+
+          <article class="step-card">
+            <span class="step-number">04</span>
+            <h3>Review the Dashboard</h3>
+            <p>See monthly cost estimates, top cost drivers, and future scenario comparisons.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-card">
+          <div>
+            <p class="section-label">Next Step</p>
+            <h2>Build the calculator foundation first</h2>
+            <p>
+              The first working version should collect the user’s electric rate,
+              then feed that data into the appliance calculator and dashboard.
+            </p>
+          </div>
+          <a class="btn btn-primary" href="rate.html">Go to Step 1</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Electricity Cost Analyzer. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
 </html>
