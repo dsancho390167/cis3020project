@@ -1,22 +1,201 @@
 <!doctype html>
-<html>
-        <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Electricity Cost Analyzer - Home</title>
-        </head>
-        <body>
-            <header>
-                <nav aria-label="Main Navigation">
-                        <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="rate.html">Rate</a></li>
-                                <li><a href="appliances.html" aria-current="page">Appliances</a></li>
-                                <li><a href="dashboard.html">Dashboard</a></li>
-                                <li><a href="scenarios.html">Scenarios</a></li>
-                        </ul>
-                </nav>
-                <hr />
-            </header>
-        </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electricity Cost Analyzer - Appliances</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="appliance-data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand-block">
+        <p class="eyebrow">Step 2</p>
+        <h1>Appliance Setup</h1>
+        <p class="tagline">Add the high-impact appliances that are most likely driving your electric bill.</p>
+      </div>
+
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rate.html">Step 1: Rate</a></li>
+          <li><a href="appliances.html" aria-current="page">Appliances</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="scenarios.html">Scenarios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">Appliance Entry</p>
+          <h2>Search by brand and model, then add real usage details</h2>
+          <p class="section-intro">
+            This page uses a hybrid approach. It tries to match an appliance from a built-in model library,
+            then lets the user enter the behavior that actually affects the electric bill.
+          </p>
+        </div>
+
+        <div id="rate-banner" class="rate-banner" aria-live="polite"></div>
+
+        <div class="appliances-layout">
+          <section class="form-card">
+            <h3 class="form-section-title">1. Find an appliance</h3>
+
+            <form id="appliance-search-form" novalidate>
+              <div class="form-grid">
+                <div class="input-group">
+                  <label for="search-brand">Brand</label>
+                  <input
+                    type="text"
+                    id="search-brand"
+                    name="search-brand"
+                    placeholder="Samsung"
+                  >
+                </div>
+
+                <div class="input-group">
+                  <label for="search-model">Model Number</label>
+                  <input
+                    type="text"
+                    id="search-model"
+                    name="search-model"
+                    placeholder="RF30BB6600QL"
+                  >
+                </div>
+              </div>
+
+              <div class="button-row">
+                <button type="submit" class="btn btn-primary">Search Appliance</button>
+                <button type="button" class="btn btn-secondary" id="manual-entry-btn">Use Manual Entry</button>
+              </div>
+
+              <p id="search-status" class="status-message" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="form-card">
+            <h3 class="form-section-title">2. Confirm details and usage</h3>
+
+            <form id="appliance-form" novalidate>
+              <fieldset>
+                <legend>Appliance Details</legend>
+
+                <div class="form-grid">
+                  <div class="input-group">
+                    <label for="appliance-name">Appliance Name</label>
+                    <input type="text" id="appliance-name" name="appliance-name" placeholder="French Door Refrigerator">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="appliance-category">Category</label>
+                    <input type="text" id="appliance-category" name="appliance-category" placeholder="Kitchen">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="appliance-voltage">Voltage</label>
+                    <input type="number" id="appliance-voltage" name="appliance-voltage" placeholder="120" min="0" step="1">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="appliance-amperage">Amperage</label>
+                    <input type="number" id="appliance-amperage" name="appliance-amperage" placeholder="3.5" min="0" step="0.1">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="appliance-energy-star">ENERGY STAR</label>
+                    <select id="appliance-energy-star" name="appliance-energy-star">
+                      <option value="Unknown">Unknown</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+
+                  <div class="input-group">
+                    <label for="appliance-watts">Estimated Watts</label>
+                    <input type="number" id="appliance-watts" name="appliance-watts" placeholder="150" min="0" step="1">
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Usage Details</legend>
+
+                <div class="form-grid">
+                  <div class="input-group">
+                    <label for="hours-per-day">Hours Used Per Day</label>
+                    <input type="number" id="hours-per-day" name="hours-per-day" placeholder="8" min="0" step="0.1">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="days-per-week">Days Used Per Week</label>
+                    <input type="number" id="days-per-week" name="days-per-week" placeholder="7" min="0" max="7" step="1">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" placeholder="1" min="1" step="1" value="1">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Optional usage notes"></textarea>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="summary-box">
+                <h3>Estimate Preview</h3>
+
+                <div class="preview-grid">
+                  <article class="metric-card">
+                    <span>Daily kWh</span>
+                    <strong id="preview-daily-kwh">--</strong>
+                  </article>
+
+                  <article class="metric-card">
+                    <span>Monthly kWh</span>
+                    <strong id="preview-monthly-kwh">--</strong>
+                  </article>
+
+                  <article class="metric-card">
+                    <span>Monthly Cost</span>
+                    <strong id="preview-monthly-cost">--</strong>
+                  </article>
+                </div>
+              </div>
+
+              <div class="button-row">
+                <button type="submit" class="btn btn-primary" id="add-appliance-btn">Add Appliance</button>
+                <button type="button" class="btn btn-secondary" id="clear-appliance-form-btn">Clear Form</button>
+              </div>
+
+              <p id="appliance-status" class="status-message" aria-live="polite"></p>
+            </form>
+          </section>
+        </div>
+
+        <section class="tracked-section">
+          <div class="section-heading">
+            <p class="section-label">Tracked Appliances</p>
+            <h2>Your saved appliance list</h2>
+          </div>
+
+          <div id="tracked-appliances-list" class="appliance-list"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Electricity Cost Analyzer. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
 </html>
