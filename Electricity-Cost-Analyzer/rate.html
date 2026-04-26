@@ -1,25 +1,115 @@
 <!doctype html>
-<html>
-        <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Electricity Cost Analyzer - Home</title>
-        </head>
-        <body>
-            <header>
-                <nav aria-label="Main Navigation">
-                        <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="rate.html" aria-current="page">Rate</a></li>
-                                <li><a href="appliances.html">Appliances</a></li>
-                                <li><a href="dashboard.html">Dashboard</a></li>
-                                <li><a href="scenarios.html">Scenarios</a></li>
-                        </ul>
-                </nav>
-                <hr />
-                <main>
-                        <h2>Step 1: Enter Your Electricity Rate</h2>
-                </main>
-            </header>
-        </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electricity Cost Analyzer - Rate</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand-block">
+        <p class="eyebrow">Step 1</p>
+        <h1>Electricity Rate Setup</h1>
+        <p class="tagline">Enter the cost of electricity so all appliance estimates use your real rate.</p>
+      </div>
+
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rate.html" aria-current="page">Step 1: Rate</a></li>
+          <li><a href="appliances.html">Appliances</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="scenarios.html">Scenarios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-section">
+      <div class="container narrow-layout">
+        <div class="section-heading">
+          <p class="section-label">Electricity Cost Input</p>
+          <h2>Set your cost per kilowatt-hour</h2>
+          <p class="section-intro">
+            Your electric bill usually lists a cost per kWh. This page saves that number so the rest of the app can estimate appliance costs more accurately.
+          </p>
+        </div>
+
+        <div class="form-card">
+          <form id="rate-form" novalidate>
+            <div class="form-grid">
+              <div class="input-group">
+                <label for="rate-value">Electricity Rate</label>
+                <input
+                  type="number"
+                  id="rate-value"
+                  name="rate-value"
+                  placeholder="0.14"
+                  step="0.01"
+                  min="0"
+                  required
+                >
+                <p class="helper-text">
+                  Example: enter <strong>0.14</strong> if your rate is 14 cents per kWh.
+                </p>
+              </div>
+
+              <div class="input-group">
+                <label for="rate-unit">Rate Unit</label>
+                <select id="rate-unit" name="rate-unit">
+                  <option value="dollars">Dollars per kWh ($)</option>
+                  <option value="cents">Cents per kWh (¢)</option>
+                </select>
+                <p class="helper-text">
+                  Choose dollars if entering 0.14. Choose cents if entering 14.
+                </p>
+              </div>
+            </div>
+
+            <div class="summary-box">
+              <h3>Preview</h3>
+              <p id="rate-preview">Your saved rate will appear here.</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Save Rate</button>
+              <a class="btn btn-secondary" href="appliances.html">Go to Appliances</a>
+            </div>
+
+            <p id="rate-status" class="status-message" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="info-grid">
+          <article class="info-card">
+            <h3>Why this matters</h3>
+            <p>
+              Every appliance estimate depends on the electricity rate. Once this is saved,
+              the app can turn energy usage into a monthly dollar cost.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3>Example</h3>
+            <p>
+              If your rate is <strong>$0.14 per kWh</strong> and an appliance uses
+              <strong>100 kWh per month</strong>, the monthly cost would be
+              <strong>$14.00</strong>.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Electricity Cost Analyzer. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
 </html>
