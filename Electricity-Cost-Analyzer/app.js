@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setFooterYear();
   initializeRatePage();
   initializeAppliancesPage();
+  initializeDashboardPage();
 });
 
 function setFooterYear() {
@@ -513,6 +514,225 @@ function renderTrackedAppliances(appliances, container, rate) {
           </div>
 
           ${item.notes ? `<p class="appliance-note"><strong>Notes:</strong> ${item.notes}</p>` : ""}
+        </article>
+      `;
+    })
+    .join("");
+}
+function initializeDashboardPage() {
+  const dashboardRate = document.getElementById("dashboard-rate");
+  const dashboardApplianceCount = document.getElementById("dashboard-appliance-count");
+  const dashboardTotalKwh = document.getElementById("dashboard-total-kwh");
+  const dashboardTotalCost = document.getElementById("dashboard-total-cost");
+  const dashboardStatusBanner = document.getElementById("dashboard-status-banner");
+  const topCostDriver = document.getElementById("top-cost-driver");
+  const highImpactList = document.getElementById("high-impact-list");
+  const dashboardApplianceList = document.getElementById("dashboard-appliance-list");
+
+  if (
+    !dashboardRate ||
+    !dashboardApplianceCount ||
+    !dashboardTotalKwh ||
+    !dashboardTotalCost ||
+    !dashboardStatusBanner ||
+    !topCostDriver ||
+    !highImpactList ||
+    !dashboardApplianceList
+  ) {
+    return;
+  }
+
+  const rate = getSavedRate();
+  const appliances = getStoredAppliances();
+
+  updateDashboardStatusBanner(dashboardStatusBanner, rate, appliances);
+  renderDashboardSummary(rate, appliances, {
+    dashboardRate,
+    dashboardApplianceCount,
+    dashboardTotalKwh,
+    dashboardTotalCost
+  });
+
+  renderTopCostDriver(topCostDriver, appliances, rate);
+  renderHighImpactAppliances(highImpactList, appliances, rate);
+  renderDashboardApplianceList(dashboardApplianceList, appliances, rate);
+}
+
+function updateDashboardStatusBanner(banner, rate, appliances) {
+  if (!rate && appliances.length === 0) {
+    banner.className = "rate-banner warning-banner";
+    banner.innerHTML = `
+      <strong>No saved rate or appliances found.</strong>
+      Start with <a href="rate.html" class="warning-link">Step 1: Rate</a>, then add appliances.
+    `;
+    return;
+  }
+
+  if (!rate) {
+    banner.className = "rate-banner warning-banner";
+    banner.innerHTML = `
+      <strong>No electricity rate found.</strong>
+      Go to <a href="rate.html" class="warning-link">Step 1: Rate</a> before trusting cost estimates.
+    `;
+    return;
+  }
+
+  if (appliances.length === 0) {
+    banner.className = "rate-banner warning-banner";
+    banner.innerHTML = `
+      <strong>No tracked appliances found.</strong>
+      Go to <a href="appliances.html" class="warning-link">Appliances</a> to add your major loads.
+    `;
+    return;
+  }
+
+  banner.className = "rate-banner success-banner";
+  banner.innerHTML = `
+    <strong>Dashboard ready:</strong> using a saved rate of $${rate.toFixed(4)} per kWh across ${appliances.length} tracked appliance(s).
+  `;
+}
+
+function renderDashboardSummary(rate, appliances, refs) {
+  const totalMonthlyKwh = appliances.reduce((sum, appliance) => {
+    return sum + (Number(appliance.monthlyKwh) || 0);
+  }, 0);
+
+  const totalMonthlyCost = rate ? totalMonthlyKwh * rate : null;
+
+  refs.dashboardRate.textContent = rate ? `$${rate.toFixed(4)} / kWh` : "Not set";
+  refs.dashboardApplianceCount.textContent = appliances.length.toString();
+  refs.dashboardTotalKwh.textContent = totalMonthlyKwh.toFixed(2);
+  refs.dashboardTotalCost.textContent = rate ? `$${totalMonthlyCost.toFixed(2)}` : "Save rate first";
+}
+
+function renderTopCostDriver(container, appliances, rate) {
+  if (!appliances.length || !rate) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>Add a rate and at least one appliance to identify the top cost driver.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const rankedAppliances = appliances
+    .map(appliance => ({
+      ...appliance,
+      currentMonthlyCost: (Number(appliance.monthlyKwh) || 0) * rate
+    }))
+    .sort((a, b) => b.currentMonthlyCost - a.currentMonthlyCost);
+
+  const topAppliance = rankedAppliances[0];
+
+  container.innerHTML = `
+    <article class="highlight-card">
+      <h4>${topAppliance.name}</h4>
+      <p class="highlight-subtitle">${topAppliance.category}</p>
+
+      <div class="highlight-metrics">
+        <div>
+          <span class="meta-label">Monthly kWh</span>
+          <strong>${Number(topAppliance.monthlyKwh).toFixed(2)}</strong>
+        </div>
+        <div>
+          <span class="meta-label">Monthly Cost</span>
+          <strong>$${topAppliance.currentMonthlyCost.toFixed(2)}</strong>
+        </div>
+        <div>
+          <span class="meta-label">Usage</span>
+          <strong>${topAppliance.hoursPerDay} hrs/day · ${topAppliance.daysPerWeek} days/week</strong>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderHighImpactAppliances(container, appliances, rate) {
+  if (!appliances.length || !rate) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>No high-impact appliances can be shown yet.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const highImpactAppliances = appliances
+    .map(appliance => ({
+      ...appliance,
+      currentMonthlyCost: (Number(appliance.monthlyKwh) || 0) * rate
+    }))
+    .filter(appliance => appliance.currentMonthlyCost >= 5)
+    .sort((a, b) => b.currentMonthlyCost - a.currentMonthlyCost);
+
+  if (!highImpactAppliances.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>No tracked appliances are currently estimated above $5 per month.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = highImpactAppliances
+    .map(appliance => {
+      return `
+        <article class="compact-appliance-card">
+          <div>
+            <h4>${appliance.name}</h4>
+            <p class="appliance-subtitle">${appliance.category}</p>
+          </div>
+          <strong>$${appliance.currentMonthlyCost.toFixed(2)}/mo</strong>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderDashboardApplianceList(container, appliances, rate) {
+  if (!appliances.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>No appliances have been added yet. Go to the Appliances page to start building your list.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const sortedAppliances = appliances
+    .map(appliance => ({
+      ...appliance,
+      currentMonthlyCost: rate ? (Number(appliance.monthlyKwh) || 0) * rate : null
+    }))
+    .sort((a, b) => {
+      const costA = a.currentMonthlyCost || 0;
+      const costB = b.currentMonthlyCost || 0;
+      return costB - costA;
+    });
+
+  container.innerHTML = sortedAppliances
+    .map(appliance => {
+      return `
+        <article class="dashboard-appliance-row">
+          <div class="dashboard-appliance-main">
+            <h4>${appliance.name}</h4>
+            <p class="appliance-subtitle">${appliance.category}</p>
+          </div>
+
+          <div class="dashboard-appliance-metrics">
+            <div>
+              <span class="meta-label">Monthly kWh</span>
+              <strong>${Number(appliance.monthlyKwh).toFixed(2)}</strong>
+            </div>
+            <div>
+              <span class="meta-label">Monthly Cost</span>
+              <strong>${rate ? `$${appliance.currentMonthlyCost.toFixed(2)}` : "Save rate first"}</strong>
+            </div>
+            <div>
+              <span class="meta-label">Quantity</span>
+              <strong>${appliance.quantity}</strong>
+            </div>
+          </div>
         </article>
       `;
     })
