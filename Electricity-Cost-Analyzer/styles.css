@@ -464,3 +464,145 @@ a {
     flex-direction: column;
   }
 }
+.dashboard-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.dashboard-stat-card {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.dashboard-stat-label {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.dashboard-stat-card strong {
+  font-size: 1.6rem;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.dashboard-panel {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.full-width-panel {
+  margin-top: 1.5rem;
+}
+
+.panel-heading h3 {
+  margin-top: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.highlight-card {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  padding: 1.25rem;
+}
+
+.highlight-card h4 {
+  margin: 0;
+}
+
+.highlight-subtitle {
+  color: var(--muted);
+  margin: 0.35rem 0 1rem;
+}
+
+.highlight-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.compact-appliance-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+}
+
+.compact-appliance-card + .compact-appliance-card {
+  margin-top: 0.8rem;
+}
+
+.dashboard-appliance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+}
+
+.dashboard-appliance-row + .dashboard-appliance-row {
+  margin-top: 0.8rem;
+}
+
+.dashboard-appliance-main h4 {
+  margin: 0;
+}
+
+.dashboard-appliance-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(110px, 1fr));
+  gap: 1rem;
+  text-align: right;
+}
+
+@media (max-width: 960px) {
+  .dashboard-summary-grid,
+  .dashboard-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .highlight-metrics,
+  .dashboard-appliance-metrics {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .dashboard-appliance-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard-summary-grid,
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .compact-appliance-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
