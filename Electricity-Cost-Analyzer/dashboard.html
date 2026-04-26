@@ -1,22 +1,103 @@
 <!doctype html>
-<html>
-        <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Electricity Cost Analyzer - Home</title>
-        </head>
-        <body>
-            <header>
-                <nav aria-label="Main Navigation">
-                        <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="rate.html">Rate</a></li>
-                                <li><a href="appliances.html">Appliances</a></li>
-                                <li><a href="dashboard.html" aria-current="page">Dashboard</a></li>
-                                <li><a href="scenarios.html">Scenarios</a></li>
-                        </ul>
-                </nav>
-                <hr />
-            </header>
-        </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electricity Cost Analyzer - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="appliance-data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand-block">
+        <p class="eyebrow">Step 3</p>
+        <h1>Dashboard</h1>
+        <p class="tagline">See what is driving your electric bill.</p>
+      </div>
+
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rate.html">Step 1: Rate</a></li>
+          <li><a href="appliances.html">Appliances</a></li>
+          <li><a href="dashboard.html" aria-current="page">Dashboard</a></li>
+          <li><a href="scenarios.html">Scenarios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">Analysis</p>
+          <h2>Estimated electricity usage and cost summary</h2>
+          <p class="section-intro">
+            This dashboard reads your saved electricity rate and tracked appliances,
+            then estimates your total monthly energy usage and identifies the biggest cost drivers.
+          </p>
+        </div>
+
+        <div id="dashboard-status-banner" class="rate-banner" aria-live="polite"></div>
+
+        <section class="dashboard-summary-grid">
+          <article class="dashboard-stat-card">
+            <span class="dashboard-stat-label">Saved Rate</span>
+            <strong id="dashboard-rate">--</strong>
+          </article>
+
+          <article class="dashboard-stat-card">
+            <span class="dashboard-stat-label">Tracked Appliances</span>
+            <strong id="dashboard-appliance-count">--</strong>
+          </article>
+
+          <article class="dashboard-stat-card">
+            <span class="dashboard-stat-label">Total Monthly kWh</span>
+            <strong id="dashboard-total-kwh">--</strong>
+          </article>
+
+          <article class="dashboard-stat-card">
+            <span class="dashboard-stat-label">Estimated Monthly Cost</span>
+            <strong id="dashboard-total-cost">--</strong>
+          </article>
+        </section>
+
+        <div class="dashboard-layout">
+          <section class="dashboard-panel">
+            <div class="panel-heading">
+              <p class="section-label">Top Cost Driver</p>
+              <h3>Highest monthly cost</h3>
+            </div>
+            <div id="top-cost-driver" class="panel-content"></div>
+          </section>
+
+          <section class="dashboard-panel">
+            <div class="panel-heading">
+              <p class="section-label">High-Impact Loads</p>
+              <h3>Appliances over $5/month</h3>
+            </div>
+            <div id="high-impact-list" class="panel-content"></div>
+          </section>
+        </div>
+
+        <section class="dashboard-panel full-width-panel">
+          <div class="panel-heading">
+            <p class="section-label">Full Breakdown</p>
+            <h3>All tracked appliances</h3>
+          </div>
+          <div id="dashboard-appliance-list" class="panel-content"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Electricity Cost Analyzer. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
 </html>
